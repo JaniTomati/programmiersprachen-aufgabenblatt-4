@@ -2,10 +2,10 @@
 
 #ifndef BUW_LIST_HPP 
 #define BUW_LIST_HPP
-#include <cstddef > 
+#include <cstddef> 
 
 template <typename T>
-struct List;
+class List;
 
 template <typename T>
 struct ListNode {
@@ -38,6 +38,7 @@ private:
 template <typename T>
 class List {
 public: 
+  // Default Constructor
   typedef T value_type;
   typedef T* pointer;
   typedef const T* const_pointer;
@@ -48,6 +49,32 @@ public:
 
   friend class ListIterator<T>;
   friend class ListConstIterator<T>;
+
+  List(): m_size{0}, m_first{nullptr}, m_last{nullptr} {} //myFirstConstructor
+
+  bool empty() const {
+    return m_size == 0;
+  }
+
+  std::size_t size() const {
+    return m_size;
+  }
+
+  T const& front() const {
+    return (*m_first).m_value;
+  }
+
+  T& front() {
+    return (*m_first).m_value;
+  }
+
+  void push_front(T const& a) {
+    if (m_size == 0) {
+      m_first = new ListNode<T>{a, nullptr, nullptr};
+    }
+    // else if size <= 1 
+  }
+
 // not implemented yet 
 private:
   std::size_t m_size = 0;

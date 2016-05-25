@@ -11,16 +11,6 @@ endif()
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external)
 add_definitions(-DGLEW_STATIC)
 
-# build GLFW
-set(GLFW_DIRECTORY glfw-3.0.3)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external/${GLFW_DIRECTORY}/include)
-
-set(GLFW_INSTALL OFF CACHE STRING "" FORCE)
-set(GLFW_BUILD_EXAMPLES OFF CACHE STRING "" FORCE)
-set(GLFW_BUILD_TESTS OFF CACHE STRING "" FORCE)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/${GLFW_DIRECTORY})
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external/${GLFW_DIRECTORY}/include)
-
 # Use catch for testing
 set(CATCH_DIRECTORY catch-1.1)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external/${CATCH_DIRECTORY})
