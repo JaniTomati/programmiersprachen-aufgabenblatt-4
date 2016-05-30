@@ -60,6 +60,7 @@ public:
     return m_size;
   }
 
+    // gets first element of the list
   T const& front() const {
     return (*m_first).m_value;
   }
@@ -68,11 +69,76 @@ public:
     return (*m_first).m_value;
   }
 
+    // adds new first element to the list
   void push_front(T const& a) {
     if (m_size == 0) {
       m_first = new ListNode<T>{a, nullptr, nullptr};
+      m_last = m_first;
     }
-    // else if size <= 1 
+
+    else if (m_size >= 1) {
+      m_first = new ListNode<T>{a, nullptr, m_first};
+      m_first -> m_next -> m_prev = m_first;
+    }
+
+    ++m_size;
+  }
+
+    // removes first element of the list
+  void pop_front() {
+    if (m_size == 1) {
+      assert(m_first != nullptr);
+      delete m_first;
+      m_first = nullptr;
+      m_size = 0;
+    }
+
+    else if (m_size > 1) {
+      assert(m_first != nullptr);
+      delete m_first;
+      m_first = m_first -> m_next;
+      --m_size;
+    }
+  }
+
+    // gets last element of the list
+  T const& last() const {
+    return (*m_last).m_value;
+  }
+
+  T& last() {
+    return (*m_last).m_value;
+  }
+
+    // adds new last element to the list
+  void push_back(T const& a) {
+    if (m_size == 0) {
+      m_last = new ListNode<T>{a, nullptr, nullptr};
+      m_first = m_last;
+    }
+    else if (m_size >= 1) {
+      m_last = new ListNode<T>{a, m_last, nullptr};
+      m_last -> m_prev -> m_next = m_last;
+    }
+
+    ++m_size;
+  }
+
+    // removes last element of the list
+  void pop_back() {
+    if (m_size == 1) {
+      assert(m_last != nullptr);
+      delete m_last;
+      m_last = nullptr;
+      m_size = 0;
+    }
+
+    else if (m_size > 1) {
+      assert(m_last != nullptr);
+      delete m_last;
+      m_last = m_last -> m_prev;
+      --m_size;
+    }
   }
 
 // not implemented yet 
