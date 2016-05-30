@@ -9,9 +9,9 @@ class List;
 
 template <typename T>
 struct ListNode {
-  ListNode() : m_value(), m_prev(nullptr), m_next(nullptr) {}
+  ListNode() : m_value {}, m_prev {nullptr}, m_next {nullptr} {}
   ListNode(T const& v, ListNode* prev, ListNode* next) : 
-  m_value(v), m_prev(prev), m_next(next) {}
+  m_value{v}, m_prev{prev}, m_next{next} {}
 
   T m_value;
   ListNode* m_prev;
@@ -20,9 +20,61 @@ struct ListNode {
 
 template <typename T>
 struct ListIterator {
+  typedef ListIterator<T> Self;
+  typedef T value_type; 
+  typedef T* pointer; 
+  typedef T& reference; 
+  typedef ptrdiff_t difference_type;
+  typedef std::forward_iterator_tag iterator_category;
+
   friend class List<T>;
-// not implemented yet
+
+  ListIterator() : m_node {nullptr} {}
+  ListIterator(ListNode<T>* n) : m_node {n} {}
+
+    // https://en.wikipedia.org/wiki/Operators_in_C_and_C%2B%2B
+    // Indirection: *a ("object pointed to by a")
+  reference operator * () const {
+    return m_node -> m_value; // value pointed to by m_node
+  } 
+
+    // Structure dereference: a -> b 
+  pointer operator -> () const {
+    return;
+  } 
+
+    // Increment: Prefix ++a
+  Self& operator ++ () {
+    m_node = m_node -> m_next; // m_node now points to next element
+    return *this; // returns m_node
+  } 
+
+    // Increment: Postfix a++ 
+  Self operator ++ (int) { // int => dummy parameter used to differentiate between prefix and postfix version
+    Self tmp = *this; // creates copy
+    ++(this); // pre-increment
+    return tmp;   // returns the copy from before the increment
+  } 
+
+    // Checks whether the node the iterator is pointing to is equal to the one of object x 
+  bool operator == (const Self& x) const {
+    return m_node == x.m_node;
+  } 
+
+    // Checks whether the node the iterator is pointing to isn't equal to the one of object x 
+  bool operator != (const Self& x) const {
+    return m_node != x.m_node;
+  } 
+
+  Self next() const {
+    if (m_node)
+      return ListIterator(m_node -> m_next);
+    else
+      return ListIterator(nullptr);
+  }
+
 private:
+    // The Node the iterator is pointing to 
   ListNode<T>* m_node = nullptr;
 };
 
@@ -50,23 +102,25 @@ public:
   friend class ListIterator<T>;
   friend class ListConstIterator<T>;
 
-  List(): m_size{0}, m_first{nullptr}, m_last{nullptr} {} //myFirstConstructor
+  List(): m_size {0}, m_first {nullptr}, m_last {nullptr} {} //myFirstConstructor
 
+    // boolean that states whether a list is empty or not 
   bool empty() const {
     return m_size == 0;
   }
 
+    // gets the size of a list
   std::size_t size() const {
     return m_size;
   }
 
     // gets first element of the list
   T const& front() const {
-    return (*m_first).m_value;
+    return (*m_first).m_value; // m_first -> m_value
   }
 
   T& front() {
-    return (*m_first).m_value;
+    return (*m_first).m_value; // m_first -> m_value
   }
 
     // adds new first element to the list
@@ -103,11 +157,11 @@ public:
 
     // gets last element of the list
   T const& last() const {
-    return (*m_last).m_value;
+    return (*m_last).m_value; // m_last -> m_value
   }
 
   T& last() {
-    return (*m_last).m_value;
+    return (*m_last).m_value; // m_last -> m_value
   }
 
     // adds new last element to the list

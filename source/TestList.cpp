@@ -1,4 +1,4 @@
-// TestList.cpp (Programmiersprachen Aufgabe 4
+// TestList.cpp (Programmiersprachen Aufgabe 4)
 
 #define CATCH_CONFIG_RUNNER
 #include <catch.hpp>
@@ -7,13 +7,13 @@
 #include "list.hpp"
 
 
-// * --------------- VEC2-Tests --------------- * //
-TEST_CASE("describe_List_empty", "[aufgabe4.1]") {
+// * --------------- List-Tests --------------- * //
+TEST_CASE("checks whether a list is empty or not", "[aufgabe4.1]") {
 	List<int> l1 {};
 	REQUIRE(l1.empty() == true);
 }
 
-TEST_CASE("describe_List_size", "[aufgabe4.1]") {
+TEST_CASE("gets the size of a list", "[aufgabe4.1]") {
 	List<int> l1 {};
 	REQUIRE(l1.size() == 0);
 }
@@ -121,6 +121,9 @@ TEST_CASE("should be empty after clearing", "[aufgabe4.3]") {
 	REQUIRE(list.empty());
 }
 
+TEST_CASE("++operator increments int", "[aufgabe4.4]") {
+	
+}
 
 // * --------------- Main --------------- * //
 
@@ -130,4 +133,4 @@ int main(int argc, char * argv[]) {
 
 }
 
-// * ----------------------------------- * //)
+// * ----------------------------------- * //
