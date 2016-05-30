@@ -141,6 +141,13 @@ public:
     }
   }
 
+    // removes all elements from the list
+  void clear() {
+    while (m_size > 0) {
+      pop_front();
+    }
+  }
+
 // not implemented yet 
 private:
   std::size_t m_size = 0;

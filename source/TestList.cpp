@@ -34,7 +34,7 @@ TEST_CASE("add an element with push_front", "[aufgabe4.2]") {
     l2.push_front(42);
     l2.push_front(34);
     l2.push_front(1);
-    l2.push_front(120)
+    l2.push_front(120);
     REQUIRE(120 == l2.front());
 } 
 
@@ -100,6 +100,26 @@ TEST_CASE("remove last element with pop_back", "[aufgabe4.2]") {
     l2.pop_back();
     REQUIRE(28 == l2.last());
 } 
+
+TEST_CASE("should be empty after clearing", "[aufgabe4.3]") {
+	List<int> list; 
+	list.push_front(1); 
+	list.push_front(2); 
+	list.push_front(3); 
+	list.push_front(4); 
+	list.clear(); 
+	REQUIRE(list.empty());
+
+	List<int> l1; 
+	list.push_front(3); 
+	list.push_front(21); 
+	list.push_front(199); 
+	list.push_front(16); 
+	list.push_front(19);
+	list.push_front(21);
+	list.clear(); 
+	REQUIRE(list.empty());
+}
 
 
 // * --------------- Main --------------- * //
