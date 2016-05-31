@@ -38,22 +38,24 @@ struct ListIterator {
     return m_node -> m_value; // value pointed to by m_node
   } 
 
-    // Structure dereference: a -> b 
+    // Structure dereference: a -> b ("member b of object pointed to by a")
   pointer operator -> () const {
     return;
   } 
 
     // Increment: Prefix ++a
   Self& operator ++ () {
-    m_node = m_node -> m_next; // m_node now points to next element
+    if (m_node) {
+      m_node = m_node -> m_next; // m_node now points to the next element
+    }
     return *this; // returns m_node
   } 
 
     // Increment: Postfix a++ 
   Self operator ++ (int) { // int => dummy parameter used to differentiate between prefix and postfix version
-    Self tmp = *this; // creates copy
-    ++(this); // pre-increment
-    return tmp;   // returns the copy from before the increment
+    Self temp = *this; // creates copy
+    ++(*this); // pre-increment 
+    return temp;   // returns the copy from before the increment
   } 
 
     // Checks whether the node the iterator is pointing to is equal to the one of object x 
