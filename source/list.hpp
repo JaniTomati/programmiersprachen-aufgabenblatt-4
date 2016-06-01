@@ -40,7 +40,7 @@ struct ListIterator {
 
     // Structure dereference: a -> b ("member b of object pointed to by a")
   pointer operator -> () const {
-    return;
+    return &(m_node -> m_value); // address-of
   } 
 
     // Increment: Prefix ++a
@@ -202,6 +202,16 @@ public:
     while (m_size > 0) {
       pop_front();
     }
+  }
+
+  	// iterator points to m_first
+  iterator begin() const {
+  	return ListIterator<T> {m_first};
+  }
+
+  	// iterator points to the element behind m_last
+  iterator end() const {
+  	return ListIterator<T> {};
   }
 
 // not implemented yet 

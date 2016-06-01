@@ -125,6 +125,19 @@ TEST_CASE("++operator increments int", "[aufgabe4.4]") {
 	
 }
 
+TEST_CASE("should be an empty range after default construction", "[aufgabe4.5]") {
+    List<int> list;
+    auto b = list.begin(); 
+    auto e = list.end(); 
+    REQUIRE(b == e);
+}
+
+TEST_CASE("provide acces to the first element with begin", "[aufgabe4.5]") {
+    List<int> list; 
+    list.push_front(42); 
+    REQUIRE(42 == *list.begin());
+}
+
 // * --------------- Main --------------- * //
 
 int main(int argc, char * argv[]) {
