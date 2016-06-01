@@ -46,7 +46,7 @@ struct ListIterator {
     // Increment: Prefix ++a
   Self& operator ++ () {
     if (m_node) {
-      m_node = m_node -> m_next; // m_node now points to the next element
+      m_node = m_node -> m_next; // m_node now points to the next node
     }
     return *this; // returns m_node
   } 
@@ -104,7 +104,15 @@ public:
   friend class ListIterator<T>;
   friend class ListConstIterator<T>;
 
+    // default-constructor
   List(): m_size {0}, m_first {nullptr}, m_last {nullptr} {} //myFirstConstructor
+
+    // copy-constructor 
+  List(List<T> const& listC): m_size {0}, m_first {nullptr}, m_last {nullptr} {
+    for (iterator i = listC.begin(); i != listC.end(); ++i) {
+      push_back(*i); // protip ;-)
+    }
+  }
 
     // boolean that states whether a list is empty or not 
   bool empty() const {
@@ -172,6 +180,7 @@ public:
       m_last = new ListNode<T>{a, nullptr, nullptr};
       m_first = m_last;
     }
+
     else if (m_size >= 1) {
       m_last = new ListNode<T>{a, m_last, nullptr};
       m_last -> m_prev -> m_next = m_last;
@@ -206,12 +215,12 @@ public:
 
   	// iterator points to m_first
   iterator begin() const {
-  	return ListIterator<T> {m_first};
+  	return iterator {m_first};
   }
 
   	// iterator points to the element behind m_last
   iterator end() const {
-  	return ListIterator<T> {};
+  	return iterator {};
   }
 
 // not implemented yet 
@@ -220,5 +229,39 @@ private:
   ListNode<T>* m_first = nullptr;
   ListNode<T>* m_last = nullptr;
 };
+
+
+  // checks whether two lists are equal 
+template<typename T>
+bool operator == (List<T> const& xs, List<T> const& ys) {
+	bool result = true;
+
+	if (xs.size() != ys.size()) { // size needs to be equal for lists to be equal
+		result = false;
+	}
+
+	else {
+		ListIterator<T> xs_it = xs.begin(); 
+		ListIterator<T> ys_it = ys.begin();
+
+		while (xs_it != xs.end() && ys_it != ys.end()) { // from beginning to end 
+			if (*xs_it != *ys_it) { // checks whether an element in list xs is not equal to element in list ys at the same position
+				result = false;
+        break;
+			}
+
+			++xs_it; // increments iterators to next node
+			++ys_it;
+		}
+	}
+
+	return result;
+}
+
+  // checks whether two lists aren't equal
+template<typename T>
+bool operator != (List<T> const& xs, List<T> const& ys) {
+	return !(xs == ys);
+}
 
 #endif // #define BUW_LIST_HPP
