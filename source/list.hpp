@@ -13,9 +13,9 @@ struct ListNode {
   ListNode(T const& v, ListNode* prev, ListNode* next) : 
   m_value{v}, m_prev{prev}, m_next{next} {}
 
-  T m_value;
-  ListNode* m_prev;
-  ListNode* m_next;
+  T m_value; // value
+  ListNode* m_prev; // pointer to next node
+  ListNode* m_next; // pointer to previous node
 };
 
 template <typename T>
@@ -39,7 +39,7 @@ struct ListIterator {
   } 
 
     // Structure dereference: a -> b ("member b of object pointed to by a")
-  pointer operator -> () const {
+  pointer operator -> () const { // equal to (*a).b
     return &(m_node -> m_value); // address-of
   } 
 
@@ -71,6 +71,13 @@ struct ListIterator {
   Self next() const {
     if (m_node)
       return ListIterator(m_node -> m_next);
+    else
+      return ListIterator(nullptr);
+  }
+
+  Self prev() const {
+    if (m_node)
+      return ListIterator(m_node -> m_prev);
     else
       return ListIterator(nullptr);
   }
@@ -223,6 +230,34 @@ public:
   	return iterator {};
   }
 
+    // inserts given value at given position (Bullshit)
+  void insert(iterator pos, T const& value) {
+
+    if (pos == begin()) { // inserts value at beginning of the list
+      push_front(value);
+    }
+
+    else if (pos == end()) { // inserts value at the end of the list
+      push_back(value);
+    }
+
+    else {
+      ListNode <T>* insertNode = new ListNode<T> {value, pos.prev().m_node, pos.m_node};
+
+      pos.prev().m_node -> m_next = insertNode;
+      pos.m_node -> m_prev = insertNode;
+      ++m_size; // increments size of the list
+    }
+  }
+
+  void reverse() {
+    List<T> tmp{*this}; // creates copy of our list
+    clear(); // clears list
+    for (iterator it = tmp.begin(); it != tmp.end(); ++it) {
+      push_front(*it); // iterates the list tmp and reverses sequence of our initial list by using push_front()
+    }
+  }
+
 // not implemented yet 
 private:
   std::size_t m_size = 0;
@@ -258,10 +293,17 @@ bool operator == (List<T> const& xs, List<T> const& ys) {
 	return result;
 }
 
-  // checks whether two lists aren't equal
+  // checks whether two lists are different
 template<typename T>
 bool operator != (List<T> const& xs, List<T> const& ys) {
 	return !(xs == ys);
+}
+  
+  // takes a given List and reverses its sequence
+template<typename T>
+List<T> reverse (List<T> revList) {
+  revList.reverse();
+  return revList; // returns new list with reversed sequence
 }
 
 #endif // #define BUW_LIST_HPP

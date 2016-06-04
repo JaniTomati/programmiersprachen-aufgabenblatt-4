@@ -9,13 +9,13 @@
 
 // * --------------- List-Tests --------------- * //
 TEST_CASE("checks whether a list is empty or not", "[aufgabe4.1]") {
-	List<int> l1 {};
-	REQUIRE(l1.empty() == true);
+  List<int> l1 {};
+  REQUIRE(l1.empty() == true);
 }
 
 TEST_CASE("gets the size of a list", "[aufgabe4.1]") {
-	List<int> l1 {};
-	REQUIRE(l1.size() == 0);
+  List<int> l1 {};
+  REQUIRE(l1.size() == 0);
 }
 
 
@@ -222,6 +222,105 @@ TEST_CASE("copy constructor", "[aufgabe4.7]") {
   list.push_front(9); 
   List<int> l2{l1}; 
   REQUIRE(l1 == l2);
+}
+
+TEST_CASE("inserts a value at certain position", "[aufgabe4.8]") {
+  List<int> list; 
+  list.push_front(69); 
+  list.push_front(42); 
+  list.push_front(101); 
+  list.push_front(264); 
+  list.push_front(9); 
+  list.insert(list.begin(), 13);
+  REQUIRE(6 == list.size());
+  REQUIRE(13 == list.front());
+  REQUIRE(69 == list.last());
+
+  List<int> list2; 
+  list2.push_front(69); 
+  list2.push_front(42); 
+  list2.push_front(101); 
+  list2.push_front(264); 
+  list2.push_front(9); 
+  list2.insert(list2.end(), 13);
+  REQUIRE(6 == list2.size());
+  REQUIRE(9 == list2.front());
+  REQUIRE(13 == list2.last());
+
+  List<int> list3; 
+  list3.push_front(69); 
+  list3.push_front(42); 
+  list3.push_front(101); 
+  list3.push_front(264); 
+  list3.push_front(9); 
+  ListIterator<int> pos = list3.begin();
+  pos++; // operator test
+  ++pos;
+  ++pos; // pos now points to position 3
+  list3.insert(pos, 13);
+  REQUIRE(6 == list3.size());
+  REQUIRE(9 == list3.front());
+  REQUIRE(69 == list3.last());
+  ListIterator<int> it = list3.begin();
+  REQUIRE(9 == *it); // pos = 0 / list.begin
+  ++it; 
+  REQUIRE(264 == *it); // pos = 1 
+  ++it;
+  REQUIRE(101 == *it); // pos = 2 
+  ++it;
+  REQUIRE(13 == *it); // pos = 3
+}
+
+TEST_CASE("reverses the sequence of the list", "[aufgabe4.9]") {
+    // member function
+  List<int> list; 
+  list.push_back(1); 
+  list.push_back(2); 
+  list.push_back(3); 
+  list.push_back(4); 
+  list.push_back(5);
+  list.reverse();
+  ListIterator<int> it = list.begin();
+  REQUIRE(5 == *it);
+  ++it;
+  REQUIRE(4 == *it);
+  ++it; 
+  REQUIRE(3 == *it);
+  ++it;
+  REQUIRE(2 == *it);
+  ++it; 
+  REQUIRE(1 == *it);
+
+    // non-member function
+  reverse(list);
+  ListIterator<int> i = list.begin();
+  REQUIRE(5 == *i);
+  ++i;
+  REQUIRE(4 == *i);
+  ++i; 
+  REQUIRE(3 == *i);
+  ++i;
+  REQUIRE(2 == *i);
+  ++i; 
+  REQUIRE(1 == *i);
+
+}
+
+TEST_CASE("copies the list into a std::vector using std::copy ", "[aufgabe4.10]") {
+  List<int> list; 
+  list.push_back(1); 
+  list.push_back(2); 
+  list.push_back(3); 
+  list.push_back(4); 
+  list.push_back(5);
+  std::vector<unsigned int> viktor(list.size());
+  std::copy(list.begin(), list.end(), std::begin(viktor));
+  // std::copy(std::begin(viktor), std::end(viktor), std::ostream_iterator<int>(std::cout, "\n"));
+  REQUIRE(1 == viktor[0]);
+  REQUIRE(2 == viktor[1]);
+  REQUIRE(3 == viktor[2]);
+  REQUIRE(4 == viktor[3]);
+  REQUIRE(5 == viktor[4]);
 }
 
 // * --------------- Main --------------- * //
