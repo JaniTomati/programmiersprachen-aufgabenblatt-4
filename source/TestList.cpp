@@ -102,13 +102,13 @@ TEST_CASE("remove last element with pop_back", "[aufgabe4.2]") {
 } 
 
 TEST_CASE("should be empty after clearing", "[aufgabe4.3]") {
-	List<int> list; 
-	list.push_front(1); 
-	list.push_front(2); 
-	list.push_front(3); 
-	list.push_front(4); 
-	list.clear(); 
-	REQUIRE(list.empty());
+  List<int> list; 
+  list.push_front(1); 
+  list.push_front(2); 
+  list.push_front(3); 
+  list.push_front(4); 
+  list.clear(); 
+  REQUIRE(list.empty());
 
 	List<int> l1; 
 	list.push_front(3); 
@@ -121,9 +121,6 @@ TEST_CASE("should be empty after clearing", "[aufgabe4.3]") {
 	REQUIRE(list.empty());
 }
 
-TEST_CASE("++operator increments int", "[aufgabe4.4]") {
-	
-}
 
 TEST_CASE("should be an empty range after default construction", "[aufgabe4.5]") {
   List<int> list;
