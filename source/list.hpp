@@ -3,6 +3,7 @@
 #ifndef BUW_LIST_HPP 
 #define BUW_LIST_HPP
 #include <cstddef> 
+#include <utility>
 
 template <typename T>
 class List;
@@ -121,6 +122,36 @@ public:
     }
   }
 
+    // move-constructor
+  List(List&& listM): m_size {listM.m_size}, m_first {listM.m_first}, m_last {listM.m_last} { // steals list elements from listM
+    listM.m_size = 0;
+    listM.m_first = nullptr;
+    listM.m_last = nullptr; // listM is now empty
+  }
+
+    // the assignment operator assigns the elements of one list to another
+  List<T>& operator = (List<T> list) { // copy-construct by passing by-value
+    swap(list); // swap memberwise
+    return *this; // destructor call for list (contains old *this)
+  }
+
+    // swaps contents of list with *this
+  void swap(List<T>& list) {
+      std::swap(m_size, list.m_size);
+      std::swap(m_first, list.m_first);
+      std::swap(m_last, list.m_last);
+  }
+
+    // free swap function in namespace of List
+  friend void swap(List<T>& l1, List<T>& l2) {
+    l1.swap(l2);
+  }
+
+    // destructor 
+  ~List() {
+    clear(); // deletes all elements from the list
+  }
+
     // boolean that states whether a list is empty or not 
   bool empty() const {
     return m_size == 0;
@@ -230,7 +261,7 @@ public:
   	return iterator {};
   }
 
-    // inserts given value at given position (Bullshit)
+    // inserts given value at given position
   void insert(iterator pos, T const& value) {
 
     if (pos == begin()) { // inserts value at beginning of the list
@@ -250,6 +281,7 @@ public:
     }
   }
 
+    // reverses the sequence of the list the function is called on
   void reverse() {
     List<T> tmp{*this}; // creates copy of our list
     clear(); // clears list
@@ -258,7 +290,7 @@ public:
     }
   }
 
-// not implemented yet 
+
 private:
   std::size_t m_size = 0;
   ListNode<T>* m_first = nullptr;
@@ -305,5 +337,6 @@ List<T> reverse (List<T> revList) {
   revList.reverse();
   return revList; // returns new list with reversed sequence
 }
+
 
 #endif // #define BUW_LIST_HPP

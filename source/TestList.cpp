@@ -306,7 +306,7 @@ TEST_CASE("reverses the sequence of the list", "[aufgabe4.9]") {
 
 }
 
-TEST_CASE("copies the list into a std::vector using std::copy ", "[aufgabe4.10]") {
+TEST_CASE("copies the list into a std::vector using std::copy", "[aufgabe4.10]") {
   List<int> list; 
   list.push_back(1); 
   list.push_back(2); 
@@ -321,6 +321,109 @@ TEST_CASE("copies the list into a std::vector using std::copy ", "[aufgabe4.10]"
   REQUIRE(3 == viktor[2]);
   REQUIRE(4 == viktor[3]);
   REQUIRE(5 == viktor[4]);
+}
+
+TEST_CASE("assigns elements of one list to another", "[aufgabe4.11]") {
+    // member swap
+  List<int> l1 {}; 
+  l1.push_back(1); 
+  l1.push_back(2); 
+  l1.push_back(3); 
+  l1.push_back(4); 
+  l1.push_back(5);
+
+  List<int> l2 {}; 
+  l2.push_back(10); 
+  l2.push_back(20); 
+  l2.push_back(30); 
+  l2.push_back(40); 
+  l2.push_back(50);
+
+  l1.swap(l2);
+  ListIterator<int> i = l1.begin();
+  REQUIRE(10 == *i);
+  ++i;
+  REQUIRE(20 == *i);
+  ++i; 
+  REQUIRE(30 == *i);
+  ++i;
+  REQUIRE(40 == *i);
+  ++i; 
+  REQUIRE(50 == *i);
+
+    // free swap function
+  List<int> l5 {}; 
+  l5.push_back(1); 
+  l5.push_back(2); 
+  l5.push_back(3); 
+  l5.push_back(4); 
+  l5.push_back(5);
+
+  List<int> l6 {}; 
+  l6.push_back(10); 
+  l6.push_back(20); 
+  l6.push_back(30); 
+  l6.push_back(40); 
+  l6.push_back(50);
+
+  swap(l5, l6);
+  ListIterator<int> iter = l5.begin();
+  REQUIRE(10 == *iter);
+  ++iter;
+  REQUIRE(20 == *iter);
+  ++iter; 
+  REQUIRE(30 == *iter);
+  ++iter;
+  REQUIRE(40 == *iter);
+  ++iter; 
+  REQUIRE(50 == *iter);
+
+  ListIterator<int> itera = l6.begin();
+  REQUIRE(1 == *itera);
+  ++itera;
+  REQUIRE(2 == *itera);
+  ++itera; 
+  REQUIRE(3 == *itera);
+  ++itera;
+  REQUIRE(4 == *itera);
+  ++itera; 
+  REQUIRE(5 == *itera);
+
+    // assignment operator
+  List<int> l3 {};
+  l3.push_back(1); 
+  l3.push_back(2); 
+  l3.push_back(3); 
+  l3.push_back(4); 
+  l3.push_back(5);
+
+  List<int> l4 {}; 
+
+  l4 = l3;
+  ListIterator<int> ite = l4.begin();
+  REQUIRE(1 == *ite);
+  ++ite;
+  REQUIRE(2 == *ite);
+  ++ite; 
+  REQUIRE(3 == *ite);
+  ++ite;
+  REQUIRE(4 == *ite);
+  ++ite; 
+  REQUIRE(5 == *ite);
+
+}
+
+TEST_CASE("move constructor", "[aufgabe4.12]") {
+  List<int> list;
+  list.push_front(1);
+  list.push_front(2);
+  list.push_front(3);
+  list.push_front(4);
+
+  List<int> list2(std::move(list));
+  REQUIRE(0 == list.size());
+  REQUIRE(list.empty());
+  REQUIRE(4 == list2.size());
 }
 
 // * --------------- Main --------------- * //
