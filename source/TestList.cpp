@@ -110,15 +110,15 @@ TEST_CASE("should be empty after clearing", "[aufgabe4.3]") {
   list.clear(); 
   REQUIRE(list.empty());
 
-	List<int> l1; 
-	list.push_front(3); 
-	list.push_front(21); 
-	list.push_front(199); 
-	list.push_front(16); 
-	list.push_front(19);
-	list.push_front(21);
-	list.clear(); 
-	REQUIRE(list.empty());
+  List<int> l1; 
+  list.push_front(3); 
+  list.push_front(21); 
+  list.push_front(199); 
+  list.push_front(16); 
+  list.push_front(19);
+  list.push_front(21);
+  list.clear(); 
+  REQUIRE(list.empty());
 }
 
 
